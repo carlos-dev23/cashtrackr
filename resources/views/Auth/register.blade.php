@@ -1,4 +1,7 @@
 @extends('Layouts.auth')
+@section('title')
+    Crear cuenta
+@endsection
 @section('auth-contents')
     <form class="mt-14 space-y-5" novalidate>
         <div class="space-y-2">

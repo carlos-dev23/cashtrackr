@@ -1,4 +1,5 @@
 @extends('Layouts.auth')
+@section('title', 'Inicio de Sesión')
 @section('auth-contents')
     <form class="mt-14 space-y-5" novalidate>
         <div class="flex flex-col gap-2">
