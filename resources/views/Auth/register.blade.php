@@ -3,19 +3,29 @@
     Crear cuenta
 @endsection
 @section('auth-contents')
-    <form class="mt-14 space-y-5" novalidate>
+    <form class="mt-14 space-y-5" novalidate method="POST" action={{ route('register.store') }}>
         <div class="space-y-2">
             <label class="font-bold text-2xl block" for="name">Nombre</label>
 
             <input id="name" type="text" placeholder="Tu Nombre" class="w-full border border-gray-300 p-3 rounded-lg"
                 name="name" />
+            @error('name')
+                <x-errors>
+                    {{ $message }}
+                </x-errors>
+            @enderror
         </div>
 
         <div class="space-y-2">
             <label class="font-bold text-2xl block" for="email">Email</label>
 
             <input id="email" type="email" placeholder="Email de Registro"
-                class="w-full border border-gray-300 p-3 rounded-lg" name="email" />
+                class="w-full border border-gray-300 p-3 rounded-lg" name="email" autocomplete="off" />
+            @error('email')
+                <x-errors>
+                    {{ $message }}
+                </x-errors>
+            @enderror
         </div>
 
         <div class="space-y-2">
@@ -23,6 +33,11 @@
 
             <input type="password" placeholder="Password de Registro" class="w-full border border-gray-300 p-3 rounded-lg"
                 name="password" />
+            @error('password')
+                <x-errors>
+                    {{ $message }}
+                </x-errors>
+            @enderror
         </div>
 
         <div class="space-y-2">
@@ -30,6 +45,11 @@
 
             <input type="password" placeholder="Password de Registro" class="w-full border border-gray-300 p-3 rounded-lg"
                 name="password_confirmation" />
+            @error('password_confirmation')
+                <x-errors>
+                    {{ $message }}
+                </x-errors>
+            @enderror
         </div>
 
         <input type="submit" value='Registrarme'
