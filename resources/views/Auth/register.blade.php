@@ -7,8 +7,9 @@
         <div class="space-y-2">
             <label class="font-bold text-2xl block" for="name">Nombre</label>
 
-            <input id="name" type="text" placeholder="Tu Nombre" class="w-full border border-gray-300 p-3 rounded-lg"
-                name="name" />
+            <input id="name" type="text" placeholder="Tu Nombre"
+                class="w-full border border-gray-300 @error('name') border-red-600 @enderror p-3 rounded-lg" name="name"
+                value="{{ old('name') }}" />
             @error('name')
                 <x-errors>
                     {{ $message }}
@@ -20,7 +21,8 @@
             <label class="font-bold text-2xl block" for="email">Email</label>
 
             <input id="email" type="email" placeholder="Email de Registro"
-                class="w-full border border-gray-300 p-3 rounded-lg" name="email" autocomplete="off" />
+                class="w-full border border-gray-300 @error('name') border-red-600 @enderror p-3 rounded-lg" name="email"
+                value="{{ old('email') }}" autocomplete="off" />
             @error('email')
                 <x-errors>
                     {{ $message }}
@@ -31,7 +33,8 @@
         <div class="space-y-2">
             <label class="font-bold text-2xl block">Password</label>
 
-            <input type="password" placeholder="Password de Registro" class="w-full border border-gray-300 p-3 rounded-lg"
+            <input type="password" placeholder="Password de Registro"
+                class="w-full border border-gray-300 @error('name') border-red-600 @enderror p-3 rounded-lg"
                 name="password" />
             @error('password')
                 <x-errors>
@@ -43,7 +46,8 @@
         <div class="space-y-2">
             <label class="font-bold text-2xl block" for="password_confirmation">Repetir Password</label>
 
-            <input type="password" placeholder="Password de Registro" class="w-full border border-gray-300 p-3 rounded-lg"
+            <input type="password" placeholder="Password de Registro"
+                class="w-full border border-gray-300 @error('name') border-red-600 @enderror p-3 rounded-lg"
                 name="password_confirmation" />
             @error('password_confirmation')
                 <x-errors>
