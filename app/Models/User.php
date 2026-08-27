@@ -20,7 +20,8 @@ class User extends Authenticatable implements MustVerifyEmail
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
-    public function SendEmailVerificationNotification(){
+    public function SendEmailVerificationNotification()
+    {
         $this->notify(new VerifyEmail);
     }
 

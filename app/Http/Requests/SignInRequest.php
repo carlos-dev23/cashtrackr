@@ -4,9 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Password;
 
-class SignupRequest extends FormRequest
+class SignInRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +23,8 @@ class SignupRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'min:3', 'string', 'max:30'],
-            'email' => ['required', 'email', 'unique:users,email'],
-            'password' => ['required', 'confirmed', Password::min(8)->mixedCase()->symbols()],
-            'password_confirmation' => ['required', 'min:8'],
+            'email' => ['required', 'email', 'exists:users,email'],
+            'password' => ['required'],
         ];
     }
 }

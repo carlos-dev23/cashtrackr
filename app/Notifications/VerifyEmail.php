@@ -3,7 +3,6 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\URL;
@@ -43,7 +42,7 @@ class VerifyEmail extends Notification
                 'hash' => sha1($notifiable->getEmailForVerification()),
             ]
         );
-        
+
         return (new MailMessage)
             ->subject('Confirmar tu cuenta en Cashtrackr')
             ->greeting('¡Hola!')
@@ -52,5 +51,4 @@ class VerifyEmail extends Notification
             ->line('Si no creaste esta cuenta, puedes ignorar este mensaje')
             ->salutation('Saludos, Cashtrackr');
     }
-
 }

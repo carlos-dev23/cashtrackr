@@ -1,12 +1,21 @@
 @extends('Layouts.auth')
 @section('title', 'Inicio de Sesión')
 @section('auth-contents')
-    <form class="mt-14 space-y-5" novalidate>
+    @if (session('error'))
+        <p class="text-center border border-red-400 bg-red-100 text-red-700 py-3 mt-3 text-sm">
+            {{ session('error') }}
+        </p>
+    @endif
+    <form method="POST" action="{{ route('login.store') }}" class="mt-14 space-y-5" novalidate>
+        @csrf
         <div class="flex flex-col gap-2">
             <label class="font-bold text-2xl" for="email">Email</label>
 
-            <input id="email" type="email" placeholder="Email de Registro"
+            <input id="email" type="email" placeholder="Email de Registro" value="{{ old('email') }}"
                 class="w-full border border-gray-300 p-3 rounded-lg" name="email" tabindex="1" />
+            @error('email')
+                <p class="text-red-600">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="flex flex-col gap-2">
@@ -15,8 +24,12 @@
                 <a href="#" class="text-indigo-950" tabindex="3">¿Olvidaste tu Contraseña?</a>
             </div>
             <input type="password" placeholder="Password de Registro" class="w-full border border-gray-300 p-3 rounded-lg"
-                name="password" tabindex="2" />
+                name="password" tabindex="2" value="{{ old('password') }}" />
+            @error('password')
+                <p class="text-red-600">{{ $message }}</p>
+            @enderror
         </div>
+
         <input type="submit" value='Iniciar Sesión'
             class="bg-purple-950 hover:bg-purple-800 w-full p-3 rounded-lg text-white font-bold  text-xl cursor-pointer" />
     </form>
