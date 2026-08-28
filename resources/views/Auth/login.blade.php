@@ -13,9 +13,7 @@
 
             <input id="email" type="email" placeholder="Email de Registro" value="{{ old('email') }}"
                 class="w-full border border-gray-300 p-3 rounded-lg" name="email" tabindex="1" />
-            @error('email')
-                <p class="text-red-600">{{ $message }}</p>
-            @enderror
+            <x-input-error field="email" />
         </div>
 
         <div class="flex flex-col gap-2">
@@ -25,9 +23,7 @@
             </div>
             <input type="password" placeholder="Password de Registro" class="w-full border border-gray-300 p-3 rounded-lg"
                 name="password" tabindex="2" value="{{ old('password') }}" />
-            @error('password')
-                <p class="text-red-600">{{ $message }}</p>
-            @enderror
+            <x-input-error field="password" />
         </div>
 
         <input type="submit" value='Iniciar Sesión'

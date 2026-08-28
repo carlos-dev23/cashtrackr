@@ -10,11 +10,7 @@
             <input id="name" type="text" placeholder="Tu Nombre"
                 class="w-full border border-gray-300 @error('name') border-red-600 @enderror p-3 rounded-lg" name="name"
                 value="{{ old('name') }}" />
-            @error('name')
-                <x-errors>
-                    {{ $message }}
-                </x-errors>
-            @enderror
+            <x-input-error field="name" />
         </div>
 
         <div class="space-y-2">
@@ -23,11 +19,7 @@
             <input id="email" type="email" placeholder="Email de Registro"
                 class="w-full border border-gray-300 @error('name') border-red-600 @enderror p-3 rounded-lg" name="email"
                 value="{{ old('email') }}" autocomplete="off" />
-            @error('email')
-                <x-errors>
-                    {{ $message }}
-                </x-errors>
-            @enderror
+            <x-input-error field="email" />
         </div>
 
         <div class="space-y-2">
@@ -36,11 +28,7 @@
             <input type="password" placeholder="Password de Registro"
                 class="w-full border border-gray-300 @error('name') border-red-600 @enderror p-3 rounded-lg"
                 name="password" />
-            @error('password')
-                <x-errors>
-                    {{ $message }}
-                </x-errors>
-            @enderror
+            <x-input-error field="password" />
         </div>
 
         <div class="space-y-2">
@@ -49,11 +37,7 @@
             <input type="password" placeholder="Password de Registro"
                 class="w-full border border-gray-300 @error('name') border-red-600 @enderror p-3 rounded-lg"
                 name="password_confirmation" />
-            @error('password_confirmation')
-                <x-errors>
-                    {{ $message }}
-                </x-errors>
-            @enderror
+            <x-input-error field="password_confirmation" />
         </div>
 
         <input type="submit" value='Registrarme'
