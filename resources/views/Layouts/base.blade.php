@@ -21,12 +21,19 @@
             <div class="w-full max-w-100">
                 <img src="{{ asset('img/logo.svg') }}" alt="CashTrackr Logo" class="w-full">
             </div>
-            <nav class="flex flex-col lg:flex-row items-center gap-4">
-                <a href="{{ route('login') }}" class="font-bold text-white uppercase p-2">Iniciar Sesión</a>
-                <a href="{{ route('register') }}"
-                    class="font-bold uppercase p-2 border-2 border-amber-500 px-5 py-2 text-amber-500">Crear cuenta
-                </a>
-            </nav>
+
+            @auth
+                <p class="text-white text-xl">Hola, {{ auth()->user()->name }}</p>
+            @else
+                @if (Route::has('login'))
+                    <nav class="flex flex-col lg:flex-row items-center gap-4">
+                        <a href="{{ route('login') }}" class="font-bold text-white uppercase p-2">Iniciar Sesión</a>
+                        <a href="{{ route('register') }}"
+                            class="font-bold uppercase p-2 border-2 border-amber-500 px-5 py-2 text-amber-500">Crear cuenta
+                        </a>
+                    </nav>
+                @endif
+            @endauth
         </div>
     </header>
     @yield('contents')
