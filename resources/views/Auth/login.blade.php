@@ -20,7 +20,7 @@
                 <a href="#" class="text-indigo-950" tabindex="3">¿Olvidaste tu Contraseña?</a>
             </div>
             <input type="password" placeholder="Password de Registro" class="w-full border border-gray-300 p-3 rounded-lg"
-                name="password" tabindex="2" value="{{ old('password') }}" />
+                name="password" tabindex="2" value="" />
             <x-input-error field="password" />
         </div>
 
