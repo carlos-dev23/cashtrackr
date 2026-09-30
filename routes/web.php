@@ -34,7 +34,8 @@ Route::get('/email/verify', function () {
     return view('Auth.email-verify');
 })->middleware('auth')->name('verification.notice');
 
-Route::middleware(['auth','verified'])->group(function(){
-    Route::get('/dashboard', [BudgetController::class, 'index'])->name('dashboard');
+Route::middleware(['auth','verified'])->prefix('dashboard')->group(function(){
+    Route::get('/', [BudgetController::class, 'index'])->name('dashboard');
     Route::get('/budgets/create', [BudgetController::class, 'create'])->name('budgets.create');
+    Route::post('/budgets/store', [BudgetController::class, 'store'])->name('budgets.store');
 });

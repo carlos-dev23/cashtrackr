@@ -19,7 +19,8 @@
 @endsection
 
 @section('dashboard-contents')
-    <form class="mt-14 space-y-3 max-w-2xl mx-auto" novalidate>
+    <form class="mt-14 space-y-3 max-w-2xl mx-auto" method="POST" action="{{ route('budgets.store') }}" novalidate>
+        @csrf
         <x-budget-form />
         <input type="submit" value='Crear Presupuesto'
             class="bg-purple-950 hover:bg-purple-800 w-full p-3 rounded-lg text-white font-bold  text-xl cursor-pointer" />
