@@ -47,6 +47,9 @@
                                     </td>
                                     <td class="py-6 px-10 flex justify-end gap-3">
                                         <x-budget-dropdown :budget="$budget" />
+                                        <x-confirm-delete :id="'delete-dialog-' . $budget->id" title="Eliminar Presupuesto"
+                                            message="Esta acción no se puede deshacer. ¿Estás seguro de que deseas eliminar este presupuesto?"
+                                            :action="route('budgets.destroy', $budget)" />
                                     </td>
                                 </tr>
                             @endforeach
