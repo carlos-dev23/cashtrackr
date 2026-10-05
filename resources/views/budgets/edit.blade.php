@@ -19,8 +19,9 @@
 @endsection
 
 @section('dashboard-contents')
-    <form method="POST" action="" class="mt-14 space-y-3 max-w-2xl mx-auto" novalidate>
+    <form method="POST" action="{{ route('budgets.update', $budget) }}" class="mt-14 space-y-3 max-w-2xl mx-auto" novalidate>
         @csrf
+        @method('PUT')
         <x-budget-form :budget="$budget" />
         <input type="submit" value='Guardar Cambios'
             class="bg-purple-950 hover:bg-purple-800 w-full p-3 rounded-lg text-white font-bold  text-xl cursor-pointer" />
