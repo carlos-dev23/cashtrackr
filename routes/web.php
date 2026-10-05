@@ -36,6 +36,7 @@ Route::get('/email/verify', function () {
 
 Route::middleware(['auth','verified'])->prefix('dashboard')->group(function(){
     Route::get('/', [BudgetController::class, 'index'])->name('dashboard');
-    Route::get('/budgets/create', [BudgetController::class, 'create'])->name('budgets.create');
-    Route::post('/budgets/store', [BudgetController::class, 'store'])->name('budgets.store');
+    Route::get('/budget/create', [BudgetController::class, 'create'])->name('budgets.create');
+    Route::post('/budget/store', [BudgetController::class, 'store'])->name('budgets.store');
+    Route::get('/budget/{budget}/edit',[BudgetController::class,'edit'])->name('budgets.edit');
 });
