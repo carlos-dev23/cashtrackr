@@ -1,58 +1,93 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# CashTrackr
 
-## About Laravel
+Aplicación web para administrar presupuestos personales (generales o metas de ahorro), construida con **Laravel 13** y **PHP 8.3**. Cada usuario solo puede ver y modificar sus propios presupuestos.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Funcionalidades
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Registro, inicio de sesión y cierre de sesión.
+- Verificación de correo electrónico (enlace firmado con límite de intentos).
+- CRUD de presupuestos con tipo `general` o `goal` (meta).
+- Autorización por dueño: solo el creador puede editar o eliminar un presupuesto (Policy).
+- Eliminación lógica (*soft delete*) de presupuestos.
+- Páginas de error 403 y 404 personalizadas.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Stack
 
-## Learning Laravel
+| Capa | Tecnología |
+|---|---|
+| Backend | PHP 8.3, Laravel 13 |
+| Frontend | Blade, Tailwind CSS 4, Vite |
+| Base de datos | MySQL (Eloquent + migraciones) |
+| Pruebas | Pest 5 + pest-plugin-laravel |
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Decisiones de diseño
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Policies con atributos** (`#[Authorize('update','budget')]`) en `BudgetController`: la regla de propiedad vive en `BudgetPolicy`, no repetida en cada método.
+- **Form Requests** (`BudgetRequest`, `SignInRequest`, `SignupRequest`): la validación se separa del controlador.
+- **Enum `BudgetType`** como *cast* en el modelo: evita strings sueltos para el tipo.
+- **SoftDeletes** en `budgets`: un borrado no destruye el dato.
+- **Middleware `auth` + `verified`** en el grupo del dashboard: solo usuarios con correo verificado.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## Modelo de datos
 
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+```mermaid
+erDiagram
+    USERS ||--o{ BUDGETS : "tiene"
+    USERS {
+        bigint id PK
+        string name
+        string email
+        string password
+        datetime email_verified_at
+    }
+    BUDGETS {
+        bigint id PK
+        bigint user_id FK
+        string name
+        decimal amount "10,2"
+        enum type "general | goal"
+        timestamp deleted_at
+    }
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+## Flujo de autorización
 
-## Contributing
+```mermaid
+flowchart LR
+    A[Petición PUT/DELETE /dashboard/budgets/:id] --> B{auth + verified}
+    B -- no --> C[Redirige a login / verificación]
+    B -- sí --> D{BudgetPolicy: user_id == dueño}
+    D -- no --> E[403]
+    D -- sí --> F[Form Request valida datos]
+    F --> G[Actualiza / elimina presupuesto]
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Instalación
 
-## Code of Conduct
+```bash
+git clone https://github.com/carlos-dev23/cashtrackr.git
+cd cashtrackr
+composer install
+cp .env.example .env
+php artisan key:generate
+# configura DB_* en .env y luego:
+php artisan migrate
+npm install
+npm run dev
+php artisan serve
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Pruebas
 
-## Security Vulnerabilities
+```bash
+php artisan test
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Cubren el flujo de autenticación: pantalla de login, acceso con usuario verificado, credenciales inválidas, bloqueo a usuarios sin verificar y registro.
 
-## License
+## Pendiente / siguientes pasos
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- Pruebas de la Policy y del CRUD de presupuestos.
+- Workflow de GitHub Actions para correr Pest en cada push.
