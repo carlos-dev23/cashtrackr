@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app_name', 'CashTrackr') }} - @yield('title')</title>
 
     @fonts
@@ -15,6 +15,7 @@
     @endif
     <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
 </head>
+brew unlink mysql && brew link --force mysql@9.6
 
 <body>
     <header class="bg-purple-950 py-5">
