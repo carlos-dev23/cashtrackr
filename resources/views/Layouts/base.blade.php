@@ -15,7 +15,6 @@
     @endif
     <script src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1" type="module"></script>
 </head>
-brew unlink mysql && brew link --force mysql@9.6
 
 <body>
     <header class="bg-purple-950 py-5">
